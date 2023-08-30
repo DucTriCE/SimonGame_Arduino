@@ -39,13 +39,13 @@ void lose(){
   digitalWrite(red, LOW);
   if(mode==2){
     lcd.setCursor(0,0);
-    lcd.print("Player "+String((rnd%2)+1)+" thua!!!");
+    lcd.print("Player "+String((rnd%2)+1)+" lose!!!");
   }
-  else lcd.print(" Ban da thua!!! ");
+  else lcd.print("   YOU LOSE!!!  ");
   rnd=0;
   delay(500);
   lcd.setCursor(0,1);
-  lcd.print("Dang tro ve menu");
+  lcd.print(" Back to main... ");
   for(int i=0; i<10; i++){
     digitalWrite(yellow, !digitalRead(yellow));
     digitalWrite(blue, !digitalRead(blue));
@@ -171,12 +171,18 @@ void caseGenerate_mode_2(int a[], int &rnd){
 
 void play_3(){
   String map[4] = {"yellow", "blue", "green", "red"};
+  int count_event = 0;
   while(1){
     int timeDelay = random(1500,5000);
     int randomize = timeDelay%3;
     int x = (random(0, 1000)%4);
     String s = "button"+String(x);
     delay(timeDelay);
+    if(randomize!=0)count_event++;
+    if(count_event==3){
+      randomize=0;
+      count_event=0;
+    }
     if(randomize==0){
       lcd.setCursor(0,0);
       lcd.print("Simon says: ");
@@ -247,9 +253,9 @@ void play_3(){
         }
       }
       delay(100);
-      if(total>1.5){
+      if(total>2){
         lcd.setCursor(0,1);
-        lcd.print("  Vuot qua 1.5s!  ");
+        lcd.print("    Over 2s!    ");
         delay(1500);
         lcd.clear();
         lose();
@@ -277,9 +283,34 @@ void play_3(){
         if(digitalRead(button1)==HIGH || digitalRead(button2)==HIGH || digitalRead(button3)==HIGH || digitalRead(button4)==HIGH){
           lcd.clear();
           lcd.setCursor(0,0);
-          lcd.print("Not simon says!");
+          lcd.print("Not Simon says!!");
+          delay(1000);
           lcd.clear();
-          delay(1500);
+          lose();
+          return;
+        }
+      }
+      delay(1500);
+      lcd.clear();
+    }
+    else if (randomize==2){
+      lcd.setCursor(0,0);
+      lcd.print("Simson says: ");
+      lcd.setCursor(0,1);
+      lcd.print("   Choose " + map[x]);
+      int start = millis();
+      int end = millis();
+      float total = (end-start)*0.001;
+      while(total<=3){
+        end=millis();
+        total=end-start;
+        total*=0.001;
+        if(digitalRead(button1)==HIGH || digitalRead(button2)==HIGH || digitalRead(button3)==HIGH || digitalRead(button4)==HIGH){
+          lcd.clear();
+          lcd.setCursor(0,0);
+          lcd.print("Not Simon says!!");
+          delay(1000);
+          lcd.clear();
           lose();
           return;
         }
@@ -295,35 +326,35 @@ void modeSelect(int &mode){
   lcd.setCursor(0,0);
   lcd.print("   Simon Game   ");
   lcd.setCursor(0,1);
-  lcd.print("An nut chon mode");
+  lcd.print("Choosing mode...");
   while(digitalRead(select)==LOW){
     if(digitalRead(button1)==HIGH){
       while(digitalRead(button1)==HIGH);
       mode=1;
       lcd.setCursor(0,1);
-      lcd.print("Dang chon mode 1");
+      lcd.print("Selecting mode 1");
     }
     else if (digitalRead(button2)==HIGH){
       while(digitalRead(button2)==HIGH);
       mode=2;
       lcd.setCursor(0,1);
-      lcd.print("Dang chon mode 2");
+      lcd.print("Selecting mode 2");
     }
     else if (digitalRead(button3)==HIGH){
       while(digitalRead(button3)==HIGH);
       mode=3;
       lcd.setCursor(0,1);
-      lcd.print("Dang chon mode 3");
+      lcd.print("Selecting mode 3");
     }
   }
   lcd.clear();
   lcd.setCursor(0,0);
-  lcd.print(" Da chon Mode " + String(mode) + " ");
+  lcd.print("Confirmed mode " + String(mode));
   delay(500);
   lcd.setCursor(0,1);
-  lcd.print("Bat dau trong  s");
+  lcd.print("Starting in  s..");
   while(number!=0){
-    lcd.setCursor(14,1);
+    lcd.setCursor(12,1);
     lcd.print(String(number));
     number--;
     delay(850);
