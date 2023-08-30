@@ -21,14 +21,14 @@ Inspired by the classic "Simon says" game, this mode introduces a text twist. Th
 
 To build the Arduino Simon Game, you'll need the following components:
 
-- 4 color buttons (Red, Green, Blue, Yellow)
-- 1 white button (for Simon Says mode)
-- 4 different color LEDs (Red, Green, Blue, Yellow)
-- 6 resistors
-- LCD 1602 with I2C Module
-- Wires for connections
-- 1 Arduino Uno R33=, a wire to load the code
-- Some breadboards
+- 4 color buttons (Red, Green, Blue, Yellow).
+- 1 white button (for Simon Says mode).
+- 4 different color LEDs (Red, Green, Blue, Yellow).
+- 6 resistors.
+- LCD 1602 with I2C Module.
+- Wires for connections.
+- 1 Arduino Uno R3, a wire to load the code.
+- Some breadboards.
 
 ![Components](images/components.jpg)
 
